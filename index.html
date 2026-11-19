@@ -1,3 +1,9 @@
+عالی! کادر الان کاملاً خالی است و آماده است تا کدهای جدید را در آن قرار دهید.
+
+کد جدید را در همین چت برای شما می‌فرستم. 
+فقط کافیست روی متن کد ضربه بزنید و کپی کنید، سپس در این کادر خالی Paste کنید و دکمه سبز Commit changes... را بزنید.
+
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -35,6 +41,8 @@ button.primary{background:var(--brand);color:var(--brand-ink);border-color:var(-
 .card h3{margin:2px 0 6px;font-size:1.1rem}
 .meta{font-size:.82rem;color:var(--mute);display:flex;gap:12px;flex-wrap:wrap}
 .type{display:inline-block;font-size:.78rem;padding:0 10px;border-radius:99px;background:var(--soft);color:var(--brand);font-weight:600}
+.stage{display:inline-block;font-size:.76rem;padding:1px 9px;border:1px solid var(--line);border-radius:99px;color:var(--mute);margin-inline-start:5px}
+.backup{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
 .body{white-space:pre-wrap;margin:8px 0}
 .tags span{font-size:.8rem;color:var(--mute);margin-inline-end:10px}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -63,6 +71,7 @@ details.seci ul{margin:8px 0 4px;padding-inline-start:20px}
 
 <details class="seci"><summary>این پلتفرم چگونه دانش مدرسه را زنده نگه می‌دارد؟</summary><ul><li><b>اجتماعی‌سازی:</b> همکاران زیر هر مطلب پرسش و پاسخ می‌گذارند.</li><li><b>برون‌سازی:</b> معلم تجربه ذهنی خود را به متن تبدیل می‌کند.</li><li><b>ترکیب:</b> مطالب با نوع و برچسب دسته‌بندی و جست‌وجو می‌شوند.</li><li><b>درونی‌سازی:</b> همکاران تجربه را در کلاس به کار می‌برند و «مفید بود» می‌زنند.</li></ul></details>
 <div id="best"></div>
+<div class="backup"><button id="export" type="button">دریافت نسخه پشتیبان</button><button id="importBtn" type="button">بازیابی نسخه پشتیبان</button><input id="importFile" type="file" accept="application/json,.json" hidden></div>
 <div class="bar">
   <input id="q" type="search" placeholder="جست‌وجو در عنوان، متن و برچسب‌ها" aria-label="جست‌وجو">
   <select id="sort" style="width:auto" aria-label="مرتب‌سازی"><option value="new">جدیدترین</option><option value="top">محبوب‌ترین</option></select>
@@ -80,6 +89,8 @@ details.seci ul{margin:8px 0 4px;padding-inline-start:20px}
         <label for="t">عنوان</label><input id="t" required maxlength="90">
         <label for="k">نوع دانش</label>
         <select id="k"></select>
+        <label for="s">مرحله مرتبط در مدل SECI</label>
+        <select id="s"><option value="اجتماعی‌سازی">اجتماعی‌سازی</option><option value="برون‌سازی">برون‌سازی</option><option value="ترکیب">ترکیب</option><option value="درونی‌سازی">درونی‌سازی</option></select>
         <label for="c">متن</label><textarea id="c" rows="5" required maxlength="1500"></textarea>
         <label for="g">برچسب‌ها (با ویرگول جدا کنید)</label><input id="g" placeholder="ریاضی، ارزشیابی">
         <p class="note">هر چیزی که در عمل جواب داده، حتی اگر کوتاه است، برای همکار بعدی ارزشمند است.</p>
@@ -92,17 +103,17 @@ details.seci ul{margin:8px 0 4px;padding-inline-start:20px}
     </div>
   </aside>
 </div>
-<footer><p class="credit">طراحی و تولید: طاهر بهروز و زهرا سادات حسینی، درس مدیریت دانش، دانشگاه مهرالبرز، با کمک هوش مصنوعی Claude</p>داده‌ها فقط در مرورگر شما ذخیره می‌شوند. برای استفاده‌ی چندنفره، این نمونه به پایگاه داده متصل می‌شود.</footer>
+<footer><p class="credit">طراحی و تولید: طاهر بهروز و زهرا سادات حسینی، درس مدیریت دانش، دانشگاه مهرالبرز، با کمک هوش مصنوعی Claude</p>اطلاعات فعلاً در مرورگر همین دستگاه ذخیره می‌شوند. برای جلوگیری از دست رفتن اطلاعات، نسخه پشتیبان بگیرید. اشتراک واقعی میان کاربران نیازمند پایگاه داده مشترک است.</footer>
 </div>
 
 <script>
 var TYPES=['تجربه موفق','آموزش گام‌به‌گام','پرسش و پاسخ','منبع و ابزار','درس‌آموخته'];
 var seed=[
-{id:1,a:'همکار پایه ششم',t:'مرور کسر با نوار کاغذی',k:TYPES[0],c:'به‌جای حل تمرین‌های کتاب، هر دانش‌آموز یک نوار کاغذی را تا می‌کند و کسرها را روی آن نشان می‌دهد. بعد از دو جلسه، اشتباه در مقایسه کسرها به‌طور محسوس کم شد.',g:['ریاضی','کسر'],d:Date.now()-86400000*5,l:7,cm:[{a:'همکار پایه چهارم',x:'در کلاس ما هم جواب داد، با نوار رنگی بهتر شد.'}]},
-{id:2,a:'مسئول کتابخانه',t:'راه‌اندازی نوبت امانت کتاب در ۱۰ دقیقه',k:TYPES[1],c:'۱) کتاب‌ها را با برچسب رنگی سطح‌بندی کنید.\n۲) یک دفتر ساده امانت بگذارید.\n۳) هر هفته دو دانش‌آموز را مسئول امانت کنید.\n۴) پایان هر ماه، پرخواننده‌ها را تشویق کنید.',g:['کتابخانه','مطالعه'],d:Date.now()-86400000*4,l:5,cm:[]},
-{id:3,a:'معاون آموزشی',t:'بازخورد سازنده به دانش‌آموز چگونه باشد؟',k:TYPES[4],c:'بازخوردی اثر دارد که سه چیز داشته باشد: یک نقطه قوت مشخص، یک گام بعدی روشن و فرصت اصلاح. جمله‌های کلی مثل «آفرین» یا «ضعیفه» اثر آموزشی ندارند.',g:['بازخورد','ارزشیابی'],d:Date.now()-86400000*3,l:9,cm:[{a:'معلم علوم',x:'گام بعدی را در حاشیه‌ی برگه می‌نویسم و نتیجه‌اش خوب بوده.'}]},
-{id:4,a:'معلم فارسی',t:'دانش‌آموزی که بلند نمی‌خواند را چه کنیم؟',k:TYPES[2],c:'پرسش: برای دانش‌آموز کم‌رو که از خواندن جلوی جمع می‌ترسد چه روشی پیشنهاد می‌کنید؟',g:['خواندن','کم‌رویی'],d:Date.now()-86400000*2,l:2,cm:[{a:'مشاور مدرسه',x:'خواندن دونفره با هم‌کلاسی صمیمی را شروع کنید و کم‌کم به جمع برسانید.'}]},
-{id:5,a:'معلم علوم',t:'کانال آزمایش‌های ساده با وسایل دور ریختنی',k:TYPES[3],c:'فهرستی از آزمایش‌های ده‌دقیقه‌ای با بطری، بادکنک و سرکه برای پایه‌های چهارم تا ششم. هر آزمایش یک پرسش پیش‌بینی دارد که بحث کلاسی را راه می‌اندازد.',g:['علوم','آزمایش'],d:Date.now()-86400000,l:4,cm:[]}
+{id:1,seci:'درونی‌سازی',a:'همکار پایه ششم',t:'مرور کسر با نوار کاغذی',k:TYPES[0],c:'به‌جای حل تمرین‌های کتاب، هر دانش‌آموز یک نوار کاغذی را تا می‌کند و کسرها را روی آن نشان می‌دهد. بعد از دو جلسه، اشتباه در مقایسه کسرها به‌طور محسوس کم شد.',g:['ریاضی','کسر'],d:Date.now()-86400000*5,l:7,cm:[{a:'همکار پایه چهارم',x:'در کلاس ما هم جواب داد، با نوار رنگی بهتر شد.'}]},
+{id:2,seci:'ترکیب',a:'مسئول کتابخانه',t:'راه‌اندازی نوبت امانت کتاب در ۱۰ دقیقه',k:TYPES[1],c:'۱) کتاب‌ها را با برچسب رنگی سطح‌بندی کنید.\n۲) یک دفتر ساده امانت بگذارید.\n۳) هر هفته دو دانش‌آموز را مسئول امانت کنید.\n۴) پایان هر ماه، پرخواننده‌ها را تشویق کنید.',g:['کتابخانه','مطالعه'],d:Date.now()-86400000*4,l:5,cm:[]},
+{id:3,seci:'برون‌سازی',a:'معاون آموزشی',t:'بازخورد سازنده به دانش‌آموز چگونه باشد؟',k:TYPES[4],c:'بازخوردی اثر دارد که سه چیز داشته باشد: یک نقطه قوت مشخص، یک گام بعدی روشن و فرصت اصلاح. جمله‌های کلی مثل «آفرین» یا «ضعیفه» اثر آموزشی ندارند.',g:['بازخورد','ارزشیابی'],d:Date.now()-86400000*3,l:9,cm:[{a:'معلم علوم',x:'گام بعدی را در حاشیه‌ی برگه می‌نویسم و نتیجه‌اش خوب بوده.'}]},
+{id:4,seci:'اجتماعی‌سازی',a:'معلم فارسی',t:'دانش‌آموزی که بلند نمی‌خواند را چه کنیم؟',k:TYPES[2],c:'پرسش: برای دانش‌آموز کم‌رو که از خواندن جلوی جمع می‌ترسد چه روشی پیشنهاد می‌کنید؟',g:['خواندن','کم‌رویی'],d:Date.now()-86400000*2,l:2,cm:[{a:'مشاور مدرسه',x:'خواندن دونفره با هم‌کلاسی صمیمی را شروع کنید و کم‌کم به جمع برسانید.'}]},
+{id:5,seci:'ترکیب',a:'معلم علوم',t:'کانال آزمایش‌های ساده با وسایل دور ریختنی',k:TYPES[3],c:'فهرستی از آزمایش‌های ده‌دقیقه‌ای با بطری، بادکنک و سرکه برای پایه‌های چهارم تا ششم. هر آزمایش یک پرسش پیش‌بینی دارد که بحث کلاسی را راه می‌اندازد.',g:['علوم','آزمایش'],d:Date.now()-86400000,l:4,cm:[]}
 ];
 var S=load(),filter='همه';
 function load(){try{var r=localStorage.getItem('hub22');if(r)return JSON.parse(r)}catch(e){}return seed}
@@ -113,7 +124,7 @@ function day(t){var n=Math.round((Date.now()-t)/86400000);return n<1?'امروز
 var kSel=document.getElementById('k');kSel.innerHTML=TYPES.map(function(t){return '<option>'+t+'</option>'}).join('');
 function render(){
   var q=document.getElementById('q').value.trim(),so=document.getElementById('sort').value;
-  var items=S.filter(function(x){return(filter==='همه'||x.k===filter)&&(!q||(x.t+x.c+x.g.join(' ')).indexOf(q)>-1)});
+  var items=S.filter(function(x){return(filter==='همه'||x.k===filter)&&(!q||(x.t+x.c+x.g.join(' ')+(x.seci||'')).indexOf(q)>-1)});
   items.sort(function(a,b){return so==='top'?b.l-a.l:b.d-a.d});
   document.getElementById('list').innerHTML=items.length?items.map(card).join(''):'<div class="empty">موردی پیدا نشد. اولین نفری باشید که دانش خود را درباره‌ی این موضوع ثبت می‌کند.</div>';
   var ncm=S.reduce(function(s,x){return s+x.cm.length},0),au={};S.forEach(function(x){au[x.a]=(au[x.a]||0)+1;x.cm.forEach(function(c){au[c.a]=(au[c.a]||0)+1})});
@@ -123,7 +134,7 @@ function render(){
   document.getElementById('chips').innerHTML=['همه'].concat(TYPES).map(function(t){return '<button type="button" class="chip" aria-pressed="'+(t===filter)+'" data-k="'+t+'">'+t+'</button>'}).join('');
 }
 function card(x){
-  return '<article class="card"><span class="type">'+esc(x.k)+'</span><h3>'+esc(x.t)+'</h3><div class="meta"><span>'+esc(x.a)+'</span><span>'+day(x.d)+'</span></div><p class="body">'+esc(x.c)+'</p><div class="tags">'+x.g.map(function(g){return '<span>#'+esc(g)+'</span>'}).join('')+'</div>'+
+  return '<article class="card"><span class="type">'+esc(x.k)+'</span><span class="stage">SECI: '+esc(x.seci||'تعیین‌نشده')+'</span><h3>'+esc(x.t)+'</h3><div class="meta"><span>'+esc(x.a)+'</span><span>'+day(x.d)+'</span></div><p class="body">'+esc(x.c)+'</p><div class="tags">'+x.g.map(function(g){return '<span>#'+esc(g)+'</span>'}).join('')+'</div>'+
   x.cm.map(function(c){return '<div class="cm"><small>'+esc(c.a)+'</small><br>'+esc(c.x)+'</div>'}).join('')+
   '<div class="acts"><button type="button" data-like="'+x.id+'">مفید بود ('+fa(x.l)+')</button><button type="button" data-cm="'+x.id+'">'+(x.k===TYPES[2]?'پاسخ دادن':'افزودن تجربه یا نظر')+'</button></div></article>';
 }
@@ -138,13 +149,41 @@ document.getElementById('sort').addEventListener('change',render);
 document.getElementById('f').addEventListener('submit',function(e){
   e.preventDefault();
   var g=document.getElementById('g').value.split(/[,،]/).map(function(s){return s.trim()}).filter(Boolean);
-  S.unshift({id:Date.now(),a:document.getElementById('a').value,t:document.getElementById('t').value,k:kSel.value,c:document.getElementById('c').value,g:g,d:Date.now(),l:0,cm:[]});
+  S.unshift({id:Date.now(),seci:document.getElementById('s').value,a:document.getElementById('a').value,t:document.getElementById('t').value,k:kSel.value,c:document.getElementById('c').value,g:g,d:Date.now(),l:0,cm:[]});
   save();e.target.reset();filter='همه';render();window.scrollTo({top:0,behavior:'smooth'});
 });
 document.getElementById('theme').addEventListener('click',function(){
   var r=document.documentElement,dark=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
   r.setAttribute('data-theme',dark?'light':'dark');
 });
+
+document.getElementById('export').addEventListener('click',function(){
+  var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json;charset=utf-8'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='backup-saraye-danesh-22-bahman.json';a.click();
+  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+});
+document.getElementById('importBtn').addEventListener('click',function(){
+  document.getElementById('importFile').click();
+});
+document.getElementById('importFile').addEventListener('change',function(e){
+  var file=e.target.files&&e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(){
+    try{
+      var data=JSON.parse(reader.result);
+      if(!Array.isArray(data)||!data.every(function(x){return x&&typeof x.t==='string'&&typeof x.c==='string'&&typeof x.a==='string'&&Array.isArray(x.g)&&Array.isArray(x.cm)})){
+        throw new Error('ساختار نامعتبر');
+      }
+      if(!confirm('اطلاعات فعلی با نسخه پشتیبان جایگزین شود؟'))return;
+      S=data.map(function(x){return Object.assign({seci:'تعیین‌نشده',l:0,d:Date.now()},x)});
+      save();render();alert('بازیابی اطلاعات انجام شد.');
+    }catch(err){alert('فایل انتخاب‌شده معتبر نیست یا قابل خواندن نیست.')}
+    finally{e.target.value=''}
+  };
+  reader.readAsText(file,'utf-8');
+});
+
 render();
 </script>
 </body>
